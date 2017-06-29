@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NotHotelProject2
+namespace Project7.Main
 {
     static class Program
     {
