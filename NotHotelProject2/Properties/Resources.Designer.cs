@@ -59,5 +59,15 @@ namespace NotHotelProject2.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bounty_Hunter_FDL {
+            get {
+                object obj = ResourceManager.GetObject("Bounty_Hunter_FDL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
