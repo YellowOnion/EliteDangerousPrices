@@ -20,7 +20,7 @@ namespace Project7.Main
 
         public Form1()
         {
-            Game = new Game(Database);
+            Game = new Game(new Database());
             InitializeComponent();
             UpdatePlayers();
             button2.Visible = false; // for importing purposes, comment out.
