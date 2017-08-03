@@ -17,30 +17,34 @@ namespace Project7.Main
 
         public Player CurrentPlayer;
 
-        public List<Player> PlayerList;
-
         public Game(Database db)
         {
             Db = db;
- 
         }
 
-        public void BindPlayers(ComboBox cbx)
+        /// <summary>
+        /// Lists all Jumps in 12 Ly's Protect against CurrentPlayer not being selected.
+        /// </summary>
+        /// <returns></returns>
+
+        public List<Tuple<StarSystem, double>> Jumps()
         {
-            cbx.DataSource = PlayerList;
-            cbx.ValueMember = "Name";
-            cbx.DisplayMember = "Name";
+            if (CurrentPlayer != null)
+                return Db.GetJumps(CurrentPlayer.Location.StarSystem);
+            else
+                return new List<Tuple<StarSystem, double>>();
         }
 
-        public void Jump() {
-
-        }
-
+        
+        /// <summary>
+        /// sets the current player
+        /// </summary>
         public void SetCurrentPlayer(string name)
         {
             CurrentPlayer = Db.GetPlayer(name);
         }
 
+        // Not yet implmented
         public void Buy() { }
 
         public void NewPlayer(string name)
@@ -52,9 +56,29 @@ namespace Project7.Main
         {
             Db.DeletePlayer(CurrentPlayer);
         }
-        public void ListPlayers()
+        public List<Player> ListPlayers()
         {
-            PlayerList = Db.ListPlayers();
+            return Db.ListPlayers();
+        }
+
+        /// <summary>
+        /// Not sure how to handle this case yet
+        /// </summary>
+        public void JumpTo(StarSystem star)
+        {
+            throw new Exception();
+        }
+
+
+        public void JumpTo(Station station)
+        {
+            CurrentPlayer.Location = station;
+            Db.Jump(CurrentPlayer);
+        }
+
+        public void NewDatabase()
+        {
+            Db.NewDatabase();
         }
     }
 }

@@ -22,15 +22,11 @@ namespace Project7.Main
             return players;
         }
 
-        public List<Player> GetPlayers()
-        {
-            using (var db = new TraderContext())
-            {
-                return db.Players.ToList();
-            }
-
-        }
-
+        /// <summary>
+        /// New players are spawned @ SOL/Titan City with 1000 credit.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Player NewPlayer(string name)
         {
             using (var db = new TraderContext())
@@ -49,11 +45,15 @@ namespace Project7.Main
         {
             using (var db = new TraderContext())
             {
-                //var p = (Player)db.Players.Where(a => a.Name == player.Name).First();
                 db.Players.Remove(player);
                 db.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Here we create a new database, you need 1.2GB RAM, and TradeDangerous.prices System.csv from http://www.davek.com.au/td/ 
+        /// Put in `Project\Data` folder, the parse is in FParsec
+        /// </summary>
 
         public void NewDatabase()
         {
@@ -111,7 +111,41 @@ namespace Project7.Main
         {
             using (var db = new TraderContext())
             {
-                return db.Players.Where(player => player.PName == name).Single();
+                return db.Players
+                    .Where(player => player.PName == name)
+                    .Include(a => a.Location)
+                    .Include(a => a.Location.StarSystem)
+                    .Include(a => a.Cargo)
+                    .Single();
+            }
+        }
+
+        /// <summary>
+        /// Here we get all locations 12 Ly's of the current player location, and sort by distance.
+        /// Include is needed because of lack of Lazy loading
+        /// </summary>
+        /// <param name="star"></param>
+        /// <returns></returns>
+        public List<Tuple<StarSystem, double>> GetJumps(StarSystem star)
+        {
+            using (var db = new TraderContext())
+            {
+                return db.StarSystems
+                    .Include(s => s.Stations)
+                    .Select(s => new Tuple<StarSystem, double>(s, Math.Sqrt(Math.Abs(Math.Pow(s.X - star.X, 2.0) + Math.Pow(s.Y - star.Y, 2.0) + Math.Pow(s.Z - star.Z, 2.0)))))
+                    .Where(t => t.Item2 < 12.0 )
+                    .OrderBy(t => t.Item2)
+                    .ToList();
+            }
+        }
+
+
+        public void Jump(Player player)
+        {
+            using (var db = new TraderContext())
+            {
+                db.Players.Update(player);
+                db.SaveChanges();
             }
         }
     }

@@ -21,6 +21,10 @@ namespace Project7.Model
         }
     }
 
+    /// <summary>
+    /// Stars have obiting stations, name, and locations in 3D space.
+    /// </summary>
+
     public class StarSystem
     {
         [Key]
