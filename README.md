@@ -1,6 +1,6 @@
-NotHotelProject2
+Elite Dangerous Prices
 ================
-App that parses Trade-Dangerous prices files from Elite Dangerous, using FParsec, and creates a small (50 ly radius) "game" that allows you to jump around the systems.
+App that parses Trade-Dangerous format prices files from the [Elite Dangerous Data Network](https://github.com/EDSM-NET/EDDN/wiki), using FParsec, and creates a small (50 ly radius) "game" that allows you to jump around the systems.
 
 ## Setup
 
